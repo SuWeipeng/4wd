@@ -12,6 +12,9 @@ common:
   - Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
   - Drivers/nRF24L01_Driver/Inc
   - Inc
+  - Libraries
+  - Libraries/mavlink
+  - Libraries/mavlink/car
   - Middlewares
   - Middlewares/ST
   - Middlewares/ST/STM32_USB_Device_Library
@@ -67,7 +70,7 @@ tool_specific:
       StartUp:
       - IDE/GCC/startup_stm32f407xx.S
     linker_file:
-    - IDE/GCC/STM32F407VGTx_FLASH.ld
+    - IDE/GCC/STM32F407ZETx_FLASH.ld
     misc:
       standard_libraries:
       - m
