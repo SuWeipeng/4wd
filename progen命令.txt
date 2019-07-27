@@ -1,0 +1,8 @@
+初始化
+progen init -p stm32f407ze-tar stm32f407ze
+
+生成工程
+progen generate -f projects.yaml -p stm32f407ze -t iar_arm
+
+加入 rt-thread 精简内核
+git submodule add https://github.com/SuWeipeng/rt-thread.git Libraries/rt-thread
