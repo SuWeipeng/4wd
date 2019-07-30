@@ -2,11 +2,6 @@
 #define __MOTORS_H
 
 #include <stm32f4xx_hal.h>
-
-#define __STM32_PIN(gpio, gpio_index)                                \
-    {                                                                \
-        GPIO##gpio, GPIO_PIN_##gpio_index                            \
-    }
     
 typedef struct stm32_motor
 {
@@ -19,5 +14,8 @@ typedef struct stm32_motor
 
 void Motors_Init();
 void Go_Front();
+void Go_Back();
+void Turn_Left();
+void Turn_Right()
 
 #endif

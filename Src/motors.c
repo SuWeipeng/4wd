@@ -62,3 +62,27 @@ void Go_Front()
   spin(&motor_fr, 40, 1);
   spin(&motor_br, 40, 1);
 }
+
+void Go_Back()
+{
+  spin(&motor_fl, 40, 0);
+  spin(&motor_bl, 40, 0);
+  spin(&motor_fr, 40, 0);
+  spin(&motor_br, 40, 0);
+}
+
+void Turn_Left()
+{
+  spin(&motor_fl, 40, 0);
+  spin(&motor_bl, 40, 0);
+  spin(&motor_fr, 40, 1);
+  spin(&motor_br, 40, 1);
+}
+
+void Turn_Right()
+{
+  spin(&motor_fl, 40, 1);
+  spin(&motor_bl, 40, 1);
+  spin(&motor_fr, 40, 0);
+  spin(&motor_br, 40, 0);
+}
