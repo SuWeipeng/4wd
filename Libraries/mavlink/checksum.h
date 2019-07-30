@@ -21,6 +21,12 @@ extern "C" {
 #define X25_INIT_CRC 0xffff
 #define X25_VALIDATE_CRC 0xf0b8
 
+#if defined (__ICCARM__) || defined(__ICCRX__)      /* for IAR Compiler */
+#define CHECKSUM_PACKED
+#else 
+#define CHECKSUM_PACKED __packed
+#endif
+
 #ifndef HAVE_CRC_ACCUMULATE
 /**
  * @brief Accumulate the X.25 CRC by adding one char at a time.
@@ -31,7 +37,7 @@ extern "C" {
  * @param data new char to hash
  * @param crcAccum the already accumulated checksum
  **/
-static inline void crc_accumulate(uint8_t data, __packed uint16_t *crcAccum)
+static inline void crc_accumulate(uint8_t data, CHECKSUM_PACKED uint16_t *crcAccum)
 {
         /*Accumulate one byte of data into the CRC*/
         uint8_t tmp;
@@ -48,7 +54,7 @@ static inline void crc_accumulate(uint8_t data, __packed uint16_t *crcAccum)
  *
  * @param crcAccum the 16 bit X.25 CRC
  */
-static inline void crc_init(__packed uint16_t* crcAccum)
+static inline void crc_init(CHECKSUM_PACKED uint16_t* crcAccum)
 {
         *crcAccum = X25_INIT_CRC;
 }
@@ -81,7 +87,7 @@ static inline uint16_t crc_calculate(const uint8_t* pBuffer, uint16_t length)
  * @param data new bytes to hash
  * @param crcAccum the already accumulated checksum
  **/
-static inline void crc_accumulate_buffer(__packed uint16_t *crcAccum, const char *pBuffer, uint16_t length)
+static inline void crc_accumulate_buffer(CHECKSUM_PACKED uint16_t *crcAccum, const char *pBuffer, uint16_t length)
 {
 	const uint8_t *p = (const uint8_t *)pBuffer;
 	while (length--) {

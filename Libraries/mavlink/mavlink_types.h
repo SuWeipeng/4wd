@@ -12,7 +12,7 @@
 #if defined(__CC_ARM) || defined(__CLANG_ARM)          /* ARM C Compiler */
   #define MAVPACKED( __Declaration__ ) __Declaration__ __attribute__((packed))
 #elif defined (__ICCARM__) || defined(__ICCRX__)      /* for IAR Compiler */
-  #define MAVPACKED( __Declaration__ ) __Declaration__ __attribute__((packed, aligned(1)))
+  #define MAVPACKED( __Declaration__ ) __Declaration__
 #elif defined (__GNUC__) || defined(__TI_COMPILER_VERSION__)
   #define MAVPACKED( __Declaration__ ) __Declaration__ __attribute__((packed))
 #endif
