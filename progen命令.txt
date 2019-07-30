@@ -6,3 +6,7 @@ progen generate -f projects.yaml -p stm32f407ze -t iar_arm
 
 加入 rt-thread 精简内核
 git submodule add https://github.com/SuWeipeng/rt-thread.git Libraries/rt-thread
+
+加入 Logger
+git submodule add https://github.com/SuWeipeng/Logger.git Libraries/Logger
+
