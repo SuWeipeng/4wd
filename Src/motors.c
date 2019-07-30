@@ -10,6 +10,8 @@ stm32_motor motor_fr; // front right
 stm32_motor motor_bl; // back left
 stm32_motor motor_br; // back right
 
+uint16_t speed = 0;
+
 void Motors_Init()
 {
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
@@ -57,32 +59,32 @@ void spin(stm32_motor *motor, uint16_t speed, uint8_t inv)
 
 void Go_Front()
 {
-  spin(&motor_fl, 40, 1);
-  spin(&motor_bl, 40, 1);
-  spin(&motor_fr, 40, 1);
-  spin(&motor_br, 40, 1);
+  spin(&motor_fl, speed, 1);
+  spin(&motor_bl, speed, 1);
+  spin(&motor_fr, speed, 1);
+  spin(&motor_br, speed, 1);
 }
 
 void Go_Back()
 {
-  spin(&motor_fl, 40, 0);
-  spin(&motor_bl, 40, 0);
-  spin(&motor_fr, 40, 0);
-  spin(&motor_br, 40, 0);
+  spin(&motor_fl, speed, 0);
+  spin(&motor_bl, speed, 0);
+  spin(&motor_fr, speed, 0);
+  spin(&motor_br, speed, 0);
 }
 
 void Turn_Left()
 {
-  spin(&motor_fl, 40, 0);
-  spin(&motor_bl, 40, 0);
-  spin(&motor_fr, 40, 1);
-  spin(&motor_br, 40, 1);
+  spin(&motor_fl, speed, 0);
+  spin(&motor_bl, speed, 0);
+  spin(&motor_fr, speed, 1);
+  spin(&motor_br, speed, 1);
 }
 
 void Turn_Right()
 {
-  spin(&motor_fl, 40, 1);
-  spin(&motor_bl, 40, 1);
-  spin(&motor_fr, 40, 0);
-  spin(&motor_br, 40, 0);
+  spin(&motor_fl, speed, 1);
+  spin(&motor_bl, speed, 1);
+  spin(&motor_fr, speed, 0);
+  spin(&motor_br, speed, 0);
 }
