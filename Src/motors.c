@@ -1,6 +1,6 @@
 #include "motors.h"
 
-#define L298N_PWM_MIN 35
+#define L298N_PWM_MIN  30
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim12;

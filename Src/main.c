@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "mavlink.h"
+#include "nrf_mavlink.h"
 #include "Logger.h"
 #include "MY_NRF24.h"
 #include "motors.h"
@@ -132,50 +132,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    static uint8_t  a = 0;
-    static uint16_t b = 0;
-    static float    c = 0.0f;
-    uint8_t myTxData[32];
-    uint8_t AckPayload[32];
-    mavlink_message_t msg;
-    
-    mavlink_msg_test_pack(0,0,&msg,a,b,c);
-    int len = mavlink_msg_to_send_buffer(myTxData, &msg);
-    
-    if(NRF24_write(myTxData, 32)) {
-      NRF24_read(AckPayload, 32);
-      uint8_t i;
-      mavlink_message_t msg_receive;
-      mavlink_status_t mav_status;
-      for(i=0; i<32; i++) {
-        if(mavlink_parse_char(0, AckPayload[i], &msg_receive, &mav_status)) {
-          switch (msg_receive.msgid) {
-            
-          case MAVLINK_MSG_ID_TEST: {
-            mavlink_test_t packet;
-            mavlink_msg_test_decode(&msg_receive, &packet);
-            
-            char uartTxBuf[32];
-						
-            sprintf(uartTxBuf, "%d\r\n", packet.data8);
-            VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
-						
-            sprintf(uartTxBuf, "%d\r\n", packet.data16);
-            VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
-						
-            sprintf(uartTxBuf, "%.1f\r\n\r\n", packet.data32);
-            VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
-            
-            a = packet.data8  + 1;
-            b = packet.data16 + 1;
-            c = packet.data32 + 1.0f;
-            
-            break;
-          }
-          }
-        }
-      }
-    }
+    Mavlink_Update();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
