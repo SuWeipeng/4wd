@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mavlink.h"
+#include "Logger.h"
 #include "MY_NRF24.h"
 /* USER CODE END Includes */
 
@@ -114,6 +115,13 @@ int main(void)
   
   NRF24_enableDynamicPayloads();
   NRF24_enableAckPayload();
+  
+  Log_Init();
+	
+  int i;
+  for(i=0;i<10;i++){
+    Write_Test(i,i);
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
