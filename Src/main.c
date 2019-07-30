@@ -125,7 +125,6 @@ int main(void)
   
   Log_Init();
   Motors_Init();
-  Go_Front();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -176,9 +175,6 @@ int main(void)
         }
       }
     }
-
-    
-    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
