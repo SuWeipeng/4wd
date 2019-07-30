@@ -102,7 +102,6 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
-  HAL_Delay(10000);
   NRF24_begin(NRF_CE_GPIO_Port, NRF_CS_Pin, NRF_CE_Pin, hspi1);
   printRadioSettings();
   
