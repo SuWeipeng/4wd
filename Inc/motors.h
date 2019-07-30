@@ -16,6 +16,6 @@ void Motors_Init();
 void Go_Front();
 void Go_Back();
 void Turn_Left();
-void Turn_Right()
+void Turn_Right();
 
 #endif
