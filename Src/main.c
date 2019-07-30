@@ -116,11 +116,6 @@ int main(void)
   NRF24_enableAckPayload();
   
   Log_Init();
-	
-  int i;
-  for(i=0;i<10;i++){
-    Write_Test(i,i);
-  }
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -2,6 +2,8 @@
 #include "Logger.h"
 #include "fatfs.h"
 
+#define LOG_FILE_NAME "log.bin"
+
 FATFS fs;
 FATFS *pfs;
 FIL fil;
@@ -30,7 +32,7 @@ uint8_t WriteBlock(const void *pBuffer, uint16_t size)
     return 1;
 
   /* Open file to write */
-  if(f_open(&fil, "log.bin", FA_OPEN_APPEND | FA_WRITE) != FR_OK)
+  if(f_open(&fil, LOG_FILE_NAME, FA_OPEN_APPEND | FA_WRITE) != FR_OK)
     return 2;
 
   /* Check freeSpace space */
@@ -74,6 +76,19 @@ void Fill_Format(const struct LogStructure *s, struct log_Format *pkt)
 void Log_Init(void)
 {
   uint8_t i;
+  FRESULT res;
+ 
+  if(f_mount(&fs, "", 0) != FR_OK)
+    return;
+  res = f_open(&fil, LOG_FILE_NAME, FA_CREATE_NEW | FA_WRITE); 
+  if(res == FR_OK){
+    f_close(&fil);
+  } else if(res == FR_EXIST){
+    f_unlink(LOG_FILE_NAME);
+  }
+  if(f_mount(NULL, "", 1) != FR_OK)
+    return;
+  
   for(i = 0; i < ARRAY_SIZE(log_structure); i++) 
   {
     Write_Format(&log_structure[i]);
