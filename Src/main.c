@@ -160,9 +160,21 @@ int main(void)
     encoder_cnt[2] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim4));
     encoder_cnt[3] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim5));
     
+    static uint32_t last_tick = 0;
+    uint32_t tick = HAL_GetTick();
+    uint32_t delta_tick;
+    
+    delta_tick = tick - last_tick;
+    last_tick = tick;
+    
+    encoder_cnt[0] = tick;
+    encoder_cnt[1] = delta_tick;
+    
     char uartTxBuf[32];
     sprintf(uartTxBuf, "%d,%d,%d,%d\r\n", encoder_cnt[0],encoder_cnt[1],encoder_cnt[2],encoder_cnt[3]);
     VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
+    
+    HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
