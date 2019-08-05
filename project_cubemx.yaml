@@ -10,6 +10,7 @@ common:
   - Drivers/STM32F4xx_HAL_Driver
   - Drivers/STM32F4xx_HAL_Driver/Inc
   - Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+  - Drivers/ABPhase_Encoder_Driver/Inc
   - Drivers/nRF24L01_Driver/Inc
   - Inc
   - Libraries
@@ -30,6 +31,7 @@ common:
   sources:
     Drivers:
     - Drivers/STM32F4xx_HAL_Driver/Src
+    - Drivers/ABPhase_Encoder_Driver/Src
     - Drivers/nRF24L01_Driver/Src
     Libraries:
     - Libraries/Logger

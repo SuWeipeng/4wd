@@ -12,6 +12,12 @@ stm32_motor motor_br; // back right
 
 uint16_t speed = 0;
 
+static void spin      (stm32_motor *motor, uint16_t speed, uint8_t inv);
+static void go_front  (void);
+static void go_back   (void);
+static void turn_left (void);
+static void turn_right(void);
+
 void Motors_Init()
 {
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
@@ -57,7 +63,7 @@ void spin(stm32_motor *motor, uint16_t speed, uint8_t inv)
   __HAL_TIM_SET_COMPARE(motor->tim, motor->channel, speed);
 }
 
-void Go_Front()
+void go_front()
 {
   spin(&motor_fl, speed, 1);
   spin(&motor_bl, speed, 1);
@@ -65,7 +71,7 @@ void Go_Front()
   spin(&motor_br, speed, 1);
 }
 
-void Go_Back()
+void go_back()
 {
   spin(&motor_fl, speed, 0);
   spin(&motor_bl, speed, 0);
@@ -73,7 +79,7 @@ void Go_Back()
   spin(&motor_br, speed, 0);
 }
 
-void Turn_Left()
+void turn_left()
 {
   spin(&motor_fl, speed, 0);
   spin(&motor_bl, speed, 0);
@@ -81,10 +87,49 @@ void Turn_Left()
   spin(&motor_br, speed, 1);
 }
 
-void Turn_Right()
+void turn_right()
 {
   spin(&motor_fl, speed, 1);
   spin(&motor_bl, speed, 1);
   spin(&motor_fr, speed, 0);
   spin(&motor_br, speed, 0);
+}
+
+void update_motors(MOTOR_STATUS *status)
+{
+  if (status == NULL)
+    return;
+  
+  switch(*status){
+  case MOTORS_STOP:
+    {
+      spin(&motor_fl, 0, 0);
+      spin(&motor_bl, 0, 0);
+      spin(&motor_fr, 0, 0);
+      spin(&motor_br, 0, 0);
+      break;
+    }
+  case GO_FRONT:
+    {
+      go_front();
+      break;
+    }
+  case GO_BACK:
+    {
+      go_back();
+      break;
+    }
+  case TURN_LEFT:
+    {
+      turn_left();
+      break;
+    }
+  case TURN_RIGHT:
+    {
+      turn_right();
+      break;
+    }
+  default:
+    break;
+  }
 }

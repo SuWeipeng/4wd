@@ -8,7 +8,7 @@ extern control_mode current_mode;
 uint8_t key_value = 7;
 ap_t    mav_data;
 
-void Mavlink_Update(void)
+void update_mavlink(void)
 {
   uint8_t myTxData[32];
   uint8_t AckPayload[32];

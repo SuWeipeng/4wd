@@ -13,6 +13,6 @@ typedef union{
   uint8_t value;
 }ap_t;
 
-void Mavlink_Update(void);
+void update_mavlink(void);
 
 #endif

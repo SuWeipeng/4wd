@@ -4,6 +4,7 @@
 extern uint16_t speed;
 extern uint8_t  key_value;
 
+static MOTOR_STATUS status;
 control_mode current_mode = MIDDLE_SPEED_MODE;
 
 control_mode read_mode()
@@ -19,7 +20,7 @@ control_mode read_mode()
   return MIDDLE_SPEED_MODE;
 }
 
-void Mode_Control()
+void update_mode()
 {
   switch(read_mode()){
     case LOW_SPEED_MODE:{
@@ -38,25 +39,26 @@ void Mode_Control()
   
   switch(key_value){
   case 0:{
-    Turn_Right();
+    status = TURN_RIGHT;
     break;
   }
   case 1:{
-    Go_Back();
+    status = GO_BACK;
     break;
   }
   case 2:{
-    Turn_Left();
+    status = TURN_LEFT;
     break;
   }
   case 3:{
-    Go_Front();
+    status = GO_FRONT;
     break;
   }
   default:{
-    speed = 0;
-    Go_Front();
+    status = MOTORS_STOP;
     break;
   }
   }
+  
+  update_motors(&status);
 }

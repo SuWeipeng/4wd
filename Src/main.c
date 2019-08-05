@@ -30,6 +30,7 @@
 #include "MY_NRF24.h"
 #include "motors.h"
 #include "mode.h"
+#include "encoder.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -148,30 +149,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    Mavlink_Update();
+    update_mavlink();
+    update_encoder();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Mode_Control();
-    
-    int32_t encoder_cnt[4]; 
-    encoder_cnt[0] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim1));
-    encoder_cnt[1] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim3));
-    encoder_cnt[2] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim4));
-    encoder_cnt[3] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim5));
-    
-    static uint32_t last_cnt = 0;
-    uint32_t cnt = encoder_cnt[0];
-    uint32_t delta_cnt;
-    
-    delta_cnt = cnt - last_cnt;
-    last_cnt = cnt;
-    
-    encoder_cnt[1] = delta_cnt;
-    
-    char uartTxBuf[32];
-    sprintf(uartTxBuf, "%d,%d,%d,%d\r\n", encoder_cnt[0],encoder_cnt[1],encoder_cnt[2],encoder_cnt[3]);
-    VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
+    update_mode();
     
     HAL_Delay(20);
   }

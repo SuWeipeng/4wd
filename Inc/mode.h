@@ -9,6 +9,6 @@ typedef enum {
   HIGH_SPEED_MODE
 }control_mode;
 
-void Mode_Control(void);
+void update_mode(void);
 
 #endif
