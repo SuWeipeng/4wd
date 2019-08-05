@@ -12,11 +12,12 @@ stm32_motor motor_br; // back right
 
 uint16_t speed = 0;
 
-static void spin      (stm32_motor *motor, uint16_t speed, uint8_t inv);
-static void go_front  (void);
-static void go_back   (void);
-static void turn_left (void);
-static void turn_right(void);
+static void spin        (stm32_motor *motor, uint16_t speed, uint8_t inv);
+static void go_front    (void);
+static void go_back     (void);
+static void turn_left   (void);
+static void turn_right  (void);
+static void read_encoder(void);
 
 void Motors_Init()
 {
@@ -95,6 +96,19 @@ void turn_right()
   spin(&motor_br, speed, 0);
 }
 
+void read_encoder(void)
+{
+  get_circles(0,&motor_fr.enc);
+  get_circles(1,&motor_bl.enc);
+  get_circles(2,&motor_br.enc);
+  get_circles(3,&motor_fl.enc);
+  
+  get_direct(0,&motor_fr.enc);
+  get_direct(1,&motor_bl.enc);
+  get_direct(2,&motor_br.enc);
+  get_direct(3,&motor_fl.enc);
+}
+
 void update_motors(MOTOR_STATUS *status)
 {
   if (status == NULL)
@@ -132,4 +146,6 @@ void update_motors(MOTOR_STATUS *status)
   default:
     break;
   }
+  
+  read_encoder();
 }
