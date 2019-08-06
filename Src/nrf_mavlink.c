@@ -3,6 +3,8 @@
 #include "usb_device.h"
 #include "mode.h"
 
+#define NRF_VCP_DEBUG 0
+
 extern control_mode current_mode;
 
 uint8_t key_value = 7;
@@ -31,13 +33,13 @@ void update_mavlink(void)
           mavlink_simple_t packet;
           mavlink_msg_simple_decode(&msg_receive, &packet);
 
-          char uartTxBuf[32];
-
           key_value = packet.data & 0x07;
           
+#if NRF_VCP_DEBUG
+          char uartTxBuf[32];
           sprintf(uartTxBuf, "%d\r\n", key_value);
           VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
-
+#endif
           break;
         }
         }

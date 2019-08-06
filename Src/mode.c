@@ -1,38 +1,40 @@
 #include "mode.h"
 #include "motors.h"
 
-extern uint16_t speed;
+extern uint16_t speed_fl;
+extern uint16_t speed_fr;
+extern uint16_t speed_bl;
+extern uint16_t speed_br;
 extern uint8_t  key_value;
 
 static MOTOR_STATUS status;
-control_mode current_mode = MIDDLE_SPEED_MODE;
+control_mode current_mode = CLOSE_LOOP_CONTROL;
+
+void pid_control(void);
 
 control_mode read_mode()
 {
   if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9) == GPIO_PIN_SET){
-    return LOW_SPEED_MODE;
+    return OPEN_LOOP_CONTROL;
   } else if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_10) == GPIO_PIN_SET){
-    return MIDDLE_SPEED_MODE;
-  } else if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_11) == GPIO_PIN_SET){
-    return HIGH_SPEED_MODE;
+    return CLOSE_LOOP_CONTROL;
   }
   
-  return MIDDLE_SPEED_MODE;
+  return CLOSE_LOOP_CONTROL;
 }
 
 void update_mode()
 {
   switch(read_mode()){
-    case LOW_SPEED_MODE:{
-      speed = 35;
+    case OPEN_LOOP_CONTROL:{
+      speed_fl = 49;
+      speed_fr = 49;
+      speed_bl = 49;
+      speed_br = 49;
       break;
     }
-    case MIDDLE_SPEED_MODE:{
-      speed = 40;
-      break;
-    }
-    case HIGH_SPEED_MODE:{
-      speed = 49;
+    case CLOSE_LOOP_CONTROL:{
+      pid_control();
       break;
     }
   }  

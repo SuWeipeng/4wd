@@ -19,7 +19,7 @@ static float   circles[4];
 
 void update_delta(void);
 
-// 20~50Hz update
+// 50Hz update
 void update_encoder(void)
 {
   encoder_cnt[0] = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim1));

@@ -4,9 +4,8 @@
 #include <stm32f4xx_hal.h>
 
 typedef enum {
-  LOW_SPEED_MODE,
-  MIDDLE_SPEED_MODE,
-  HIGH_SPEED_MODE
+  OPEN_LOOP_CONTROL,
+  CLOSE_LOOP_CONTROL
 }control_mode;
 
 void update_mode(void);

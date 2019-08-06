@@ -1,6 +1,8 @@
 #include "motors.h"
+#include "usb_device.h"
 
-#define L298N_PWM_MIN  30
+#define L298N_PWM_MIN   30
+#define MOTOR_VCP_DEBUG 0
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim12;
@@ -10,7 +12,10 @@ stm32_motor motor_fr; // front right
 stm32_motor motor_bl; // back left
 stm32_motor motor_br; // back right
 
-uint16_t speed = 0;
+uint16_t speed_fl = 0;
+uint16_t speed_fr = 0;
+uint16_t speed_bl = 0;
+uint16_t speed_br = 0;
 
 static void spin        (stm32_motor *motor, uint16_t speed, uint8_t inv);
 static void go_front    (void);
@@ -66,34 +71,34 @@ void spin(stm32_motor *motor, uint16_t speed, uint8_t inv)
 
 void go_front()
 {
-  spin(&motor_fl, speed, 1);
-  spin(&motor_bl, speed, 1);
-  spin(&motor_fr, speed, 1);
-  spin(&motor_br, speed, 1);
+  spin(&motor_fl, speed_fl, 1);
+  spin(&motor_bl, speed_bl, 1);
+  spin(&motor_fr, speed_fr, 1);
+  spin(&motor_br, speed_br, 1);
 }
 
 void go_back()
 {
-  spin(&motor_fl, speed, 0);
-  spin(&motor_bl, speed, 0);
-  spin(&motor_fr, speed, 0);
-  spin(&motor_br, speed, 0);
+  spin(&motor_fl, speed_fl, 0);
+  spin(&motor_bl, speed_bl, 0);
+  spin(&motor_fr, speed_fr, 0);
+  spin(&motor_br, speed_br, 0);
 }
 
 void turn_left()
 {
-  spin(&motor_fl, speed, 0);
-  spin(&motor_bl, speed, 0);
-  spin(&motor_fr, speed, 1);
-  spin(&motor_br, speed, 1);
+  spin(&motor_fl, speed_fl, 0);
+  spin(&motor_bl, speed_bl, 0);
+  spin(&motor_fr, speed_fr, 1);
+  spin(&motor_br, speed_br, 1);
 }
 
 void turn_right()
 {
-  spin(&motor_fl, speed, 1);
-  spin(&motor_bl, speed, 1);
-  spin(&motor_fr, speed, 0);
-  spin(&motor_br, speed, 0);
+  spin(&motor_fl, speed_fl, 1);
+  spin(&motor_bl, speed_bl, 1);
+  spin(&motor_fr, speed_fr, 0);
+  spin(&motor_br, speed_br, 0);
 }
 
 void read_encoder(void)
@@ -148,4 +153,10 @@ void update_motors(MOTOR_STATUS *status)
   }
   
   read_encoder();
+  
+#if MOTOR_VCP_DEBUG
+  char uartTxBuf[32];  
+  sprintf(uartTxBuf, "status:%d\r\n", (int)*status);
+  VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
+#endif
 }
