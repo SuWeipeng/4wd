@@ -22,6 +22,8 @@ static void go_front    (void);
 static void go_back     (void);
 static void turn_left   (void);
 static void turn_right  (void);
+static void move_left   (void);
+static void move_right  (void);
 static void read_encoder(void);
 
 void Motors_Init()
@@ -101,6 +103,22 @@ void turn_right()
   spin(&motor_br, speed_br, 0);
 }
 
+void move_left()
+{
+  spin(&motor_fl, speed_fl, 0);
+  spin(&motor_bl, speed_bl, 1);
+  spin(&motor_fr, speed_fr, 1);
+  spin(&motor_br, speed_br, 0);
+}
+
+void move_right()
+{
+  spin(&motor_fl, speed_fl, 1);
+  spin(&motor_bl, speed_bl, 0);
+  spin(&motor_fr, speed_fr, 0);
+  spin(&motor_br, speed_br, 1);
+}
+
 void read_encoder(void)
 {
   get_circles(0,&motor_fr.enc);
@@ -146,6 +164,16 @@ void update_motors(MOTOR_STATUS *status)
   case TURN_RIGHT:
     {
       turn_right();
+      break;
+    }
+  case MOVE_LEFT:
+    {
+      move_left();
+      break;
+    }
+  case MOVE_RIGHT:
+    {
+      move_right();
       break;
     }
   default:

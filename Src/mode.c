@@ -56,6 +56,14 @@ void update_mode()
     status = GO_FRONT;
     break;
   }
+  case 5:{
+    status = MOVE_RIGHT;
+    break;
+  }
+  case 6:{
+    status = MOVE_LEFT;
+    break;
+  }
   default:{
     status = MOTORS_STOP;
     break;
