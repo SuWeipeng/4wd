@@ -24,7 +24,7 @@ typedef enum {
   MOVE_RIGHT
 }MOTOR_STATUS;
   
-void Motors_Init();
+void Motors_Init(void);
 void update_motors(MOTOR_STATUS *status);
 
 #endif
