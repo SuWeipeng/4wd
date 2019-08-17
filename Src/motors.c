@@ -12,16 +12,16 @@ stm32_motor motor_fl = {.tim      = &htim2,
                         .pin_1    = GPIO_PIN_12,
                         .pin_2    = GPIO_PIN_14,
                         .channel  = TIM_CHANNEL_3}; // front left
-stm32_motor motor_fr = {.tim      = &htim2,
-                        .dir_port = GPIOE,
-                        .pin_1    = GPIO_PIN_13,
-                        .pin_2    = GPIO_PIN_15,
-                        .channel  = TIM_CHANNEL_4}; // front right
-stm32_motor motor_bl = {.tim      = &htim12,
+stm32_motor motor_fr = {.tim      = &htim12,
                         .dir_port = GPIOD,
                         .pin_1    = GPIO_PIN_8,
                         .pin_2    = GPIO_PIN_10,
-                        .channel  = TIM_CHANNEL_1}; // back left
+                        .channel  = TIM_CHANNEL_1}; // front right
+stm32_motor motor_bl = {.tim      = &htim2,
+                        .dir_port = GPIOE,
+                        .pin_1    = GPIO_PIN_13,
+                        .pin_2    = GPIO_PIN_15,
+                        .channel  = TIM_CHANNEL_4}; // back left
 stm32_motor motor_br = {.tim      = &htim12,
                         .dir_port = GPIOD,
                         .pin_1    = GPIO_PIN_9,

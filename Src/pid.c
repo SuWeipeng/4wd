@@ -23,15 +23,15 @@ extern uint16_t speed_br;
 static float last_circles[4];
 static float _dt = DELTA_T;
 static float error_last = 0.0f;
-static float _target;
-static float _error;
-static float _derivative;
-static float _integrator;
-static float _kp = 0.12f;
-static float _ki = 0.5f;
-static float _kd = 0.0f;
+static float _target[4];
+static float _error[4];
+static float _derivative[4];
+static float _integrator[4];
+static float _kp[4] = {0.15f, 0.15f, 0.15f, 0.15f};
+static float _ki[4] = {1.8f, 1.8f, 1.8f, 1.8f};
+static float _kd[4] = {0.002f, 0.002f, 0.002f, 0.002f};
 
-void  update_i(uint8_t limit);
+void  update_i(uint8_t who, uint8_t limit);
 float get_filt_T_alpha(void);
 float get_filt_E_alpha(void);
 float get_filt_D_alpha(void);
@@ -41,58 +41,60 @@ float calc_speed(uint8_t who, float *circles, float *last_circles);
 // 50Hz update
 void pid_control()
 {
-  speed_fl = (uint16_t)(update_all(TARGET_20HZ_SPEED, get_speed(0, motor_fl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_fr = (uint16_t)(update_all(TARGET_20HZ_SPEED, get_speed(1, motor_fr.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_bl = (uint16_t)(update_all(TARGET_20HZ_SPEED, get_speed(2, motor_bl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_br = (uint16_t)(update_all(TARGET_20HZ_SPEED, get_speed(3, motor_br.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_fl = (uint16_t)(update_all(0, TARGET_20HZ_SPEED, get_speed(0, motor_fl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_fr = (uint16_t)(update_all(1, TARGET_20HZ_SPEED, get_speed(1, motor_fr.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_bl = (uint16_t)(update_all(2, TARGET_20HZ_SPEED, get_speed(2, motor_bl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_br = (uint16_t)(update_all(3, TARGET_20HZ_SPEED, get_speed(3, motor_br.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
 }
 
-float update_all(float target, float measurement, uint8_t limit)
+float update_all(uint8_t who, float target, float measurement, uint8_t limit)
 {
   // don't process inf or NaN
   if (!isfinite(target) || !isfinite(measurement)) {
     return 0.0f;
   }
 
-  error_last = _error;
-  _target += get_filt_T_alpha() * (target - _target);
-  _error += get_filt_E_alpha() * ((_target - measurement) - _error);
+  error_last = _error[who];
+  _target[who] += get_filt_T_alpha() * (target - _target[who]);
+  _error[who] += get_filt_E_alpha() * ((_target[who] - measurement) - _error[who]);
 
   // calculate and filter derivative
   if (_dt > 0.0f) {
-    float derivative = (_error - error_last) / _dt;
-    _derivative += get_filt_D_alpha() * (derivative - _derivative);
+    float derivative = (_error[who] - error_last) / _dt;
+    _derivative[who] += get_filt_D_alpha() * (derivative - _derivative[who]);
   }
 
   // update I term
-  update_i(limit);
+  update_i(who, limit);
 
-  float P_out = (_error * _kp);
-  float D_out = (_derivative * _kd);
+  float P_out = (_error[who] * _kp[who]);
+  float D_out = (_derivative[who] * _kd[who]);
 
 #if PID_VCP_DEBUG
-  char uartTxBuf[100];  
-  sprintf(uartTxBuf, "p:%.2f, i:%.2f, d:%.2f\r\ntar:%.2f, measure:%.2f\r\n", P_out, _integrator, D_out, _target, measurement);
-  VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
+  if(who == 1){
+    char uartTxBuf[100];  
+    sprintf(uartTxBuf, "who:%d, p:%.3f, i:%.2f, d:%.2f\r\ntar:%.2f, measure:%.2f\r\n", who, P_out, _integrator[who], D_out, _target[who], measurement);
+    VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
+  }
 #endif
   
-  return P_out + _integrator + D_out;
+  return constrain_float(P_out + _integrator[who] + D_out, -50.0f*REDUCTION_RATIO, 50.0f*REDUCTION_RATIO);
 }
 
 //  update_i - update the integral
 //  If the limit flag is set the integral is only allowed to shrink
-void update_i(uint8_t limit)
+void update_i(uint8_t who, uint8_t limit)
 {
-  float _kimax = 49.0f;
+  float _kimax = 50.0f*REDUCTION_RATIO;
   
-  if (!is_zero(_ki) && is_positive(_dt) && key_value != 7) {
+  if (!is_zero(_ki[who]) && is_positive(_dt) && key_value != 7) {
     // Ensure that integrator can only be reduced if the output is saturated
-    if (!limit || ((is_positive(_integrator) && is_negative(_error)) || (is_negative(_integrator) && is_positive(_error)))) {
-      _integrator += ((float)_error * _ki) * _dt;
-      _integrator = constrain_float(_integrator, -_kimax, _kimax);
+    if (!limit || ((is_positive(_integrator[who]) && is_negative(_error[who])) || (is_negative(_integrator[who]) && is_positive(_error[who])))) {
+      _integrator[who] += ((float)_error[who] * _ki[who]) * _dt;
+      _integrator[who] = constrain_float(_integrator[who], -_kimax, _kimax);
     }
   } else {
-    _integrator = 0.0f;
+    _integrator[who] = 0.0f;
   }
 }
 
@@ -111,7 +113,7 @@ float get_filt_E_alpha()
 // get_filt_D_alpha - get the derivative filter alpha
 float get_filt_D_alpha()
 {
-  return 1.0f;
+  return 0.85f;
 }
 
 float constrain_float(float input, float lim_down, float lim_up)
