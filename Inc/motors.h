@@ -3,10 +3,6 @@
 
 #include <stm32f4xx_hal.h>
 #include "encoder.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
   
 typedef struct stm32_motor
 {
@@ -30,9 +26,5 @@ typedef enum {
   
 void Motors_Init(void);
 void update_motors(MOTOR_STATUS *status);
-
-#ifdef __cplusplus
-}
-#endif
   
 #endif
