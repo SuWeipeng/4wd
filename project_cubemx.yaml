@@ -54,6 +54,13 @@ tool_specific:
     macros:
     - USE_HAL_DRIVER
     - STM32F407xx
+    misc:
+      cxx_flags:
+      - --cpp
+      - --c99
+      - -Otime
+      - --enum_is_int
+      - -g
     sources:
       StartUp:
       - IDE/MDK5

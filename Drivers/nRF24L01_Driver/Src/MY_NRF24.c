@@ -24,7 +24,8 @@ References:				This library was written based on the Arduino NRF24 Open-Source l
 //*** Variables declaration ***//
 //#define MAX(x, y) (((x) > (y)) ? (x) : (y))
 //#define MIN(x, y) (((x) < (y)) ? (x) : (y))
-#define _BOOL(x) (((x)>0) ? 1:0)
+#define _BOOL_(x) (((x)>0) ? 1:0)
+
 
 //*** Library variables ***//
 static uint64_t pipe0_reading_address;
@@ -147,7 +148,7 @@ void NRF24_read_payload(void* buf, uint8_t len)
 	NRF24_csn(0);
 	cmdRxBuf = CMD_R_RX_PAYLOAD;
 	HAL_SPI_Transmit(&nrf24_hspi, &cmdRxBuf, 1, 100);
-	HAL_SPI_Receive(&nrf24_hspi, buf, data_len, 100);
+	HAL_SPI_Receive(&nrf24_hspi, (uint8_t*)buf, data_len, 100);
 	NRF24_csn(1);
 }
 
@@ -749,13 +750,13 @@ void printRadioSettings(void)
 	//b) AutoAck on pipes
 	reg8Val = NRF24_read_register(0x01);
 	sprintf(uartTxBuf, "ENAA:\r\n		P0:	%d\r\n		P1:	%d\r\n		P2:	%d\r\n		P3:	%d\r\n		P4:	%d\r\n		P5:	%d\r\n",
-	_BOOL(reg8Val&(1<<0)), _BOOL(reg8Val&(1<<1)), _BOOL(reg8Val&(1<<2)), _BOOL(reg8Val&(1<<3)), _BOOL(reg8Val&(1<<4)), _BOOL(reg8Val&(1<<5)));
+	_BOOL_(reg8Val&(1<<0)), _BOOL_(reg8Val&(1<<1)), _BOOL_(reg8Val&(1<<2)), _BOOL_(reg8Val&(1<<3)), _BOOL_(reg8Val&(1<<4)), _BOOL_(reg8Val&(1<<5)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
 	//c) Enabled Rx addresses
 	reg8Val = NRF24_read_register(0x02);
 	sprintf(uartTxBuf, "EN_RXADDR:\r\n		P0:	%d\r\n		P1:	%d\r\n		P2:	%d\r\n		P3:	%d\r\n		P4:	%d\r\n		P5:	%d\r\n",
-	_BOOL(reg8Val&(1<<0)), _BOOL(reg8Val&(1<<1)), _BOOL(reg8Val&(1<<2)), _BOOL(reg8Val&(1<<3)), _BOOL(reg8Val&(1<<4)), _BOOL(reg8Val&(1<<5)));
+	_BOOL_(reg8Val&(1<<0)), _BOOL_(reg8Val&(1<<1)), _BOOL_(reg8Val&(1<<2)), _BOOL_(reg8Val&(1<<3)), _BOOL_(reg8Val&(1<<4)), _BOOL_(reg8Val&(1<<5)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
 	//d) Address width
@@ -854,7 +855,7 @@ void printRadioSettings(void)
 	//i) Dynamic payload enable for each pipe
 	reg8Val = NRF24_read_register(0x1c);
 	sprintf(uartTxBuf, "DYNPD_pipe:\r\n		P0:	%d\r\n		P1:	%d\r\n		P2:	%d\r\n		P3:	%d\r\n		P4:	%d\r\n		P5:	%d\r\n",
-	_BOOL(reg8Val&(1<<0)), _BOOL(reg8Val&(1<<1)), _BOOL(reg8Val&(1<<2)), _BOOL(reg8Val&(1<<3)), _BOOL(reg8Val&(1<<4)), _BOOL(reg8Val&(1<<5)));
+	_BOOL_(reg8Val&(1<<0)), _BOOL_(reg8Val&(1<<1)), _BOOL_(reg8Val&(1<<2)), _BOOL_(reg8Val&(1<<3)), _BOOL_(reg8Val&(1<<4)), _BOOL_(reg8Val&(1<<5)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
 	
@@ -888,7 +889,7 @@ void printStatusReg(void)
 	
 	reg8Val = NRF24_read_register(0x07);
 	sprintf(uartTxBuf, "STATUS reg:\r\n		RX_DR:		%d\r\n		TX_DS:		%d\r\n		MAX_RT:		%d\r\n		RX_P_NO:	%d\r\n		TX_FULL:	%d\r\n",
-	_BOOL(reg8Val&(1<<6)), _BOOL(reg8Val&(1<<5)), _BOOL(reg8Val&(1<<4)), _BOOL(reg8Val&(3<<1)), _BOOL(reg8Val&(1<<0)));
+	_BOOL_(reg8Val&(1<<6)), _BOOL_(reg8Val&(1<<5)), _BOOL_(reg8Val&(1<<4)), _BOOL_(reg8Val&(3<<1)), _BOOL_(reg8Val&(1<<0)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
@@ -909,7 +910,7 @@ void printConfigReg(void)
 	
 	reg8Val = NRF24_read_register(0x00);
 	sprintf(uartTxBuf, "CONFIG reg:\r\n		PWR_UP:		%d\r\n		PRIM_RX:	%d\r\n",
-	_BOOL(reg8Val&(1<<1)), _BOOL(reg8Val&(1<<0)));
+	_BOOL_(reg8Val&(1<<1)), _BOOL_(reg8Val&(1<<0)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
 	
@@ -935,7 +936,7 @@ void printFIFOstatus(void)
 	
 	reg8Val = NRF24_read_register(0x17);
 	sprintf(uartTxBuf, "FIFO Status reg:\r\n		TX_FULL:		%d\r\n		TX_EMPTY:		%d\r\n		RX_FULL:		%d\r\n		RX_EMPTY:		%d\r\n",
-	_BOOL(reg8Val&(1<<5)), _BOOL(reg8Val&(1<<4)), _BOOL(reg8Val&(1<<1)), _BOOL(reg8Val&(1<<0)));
+	_BOOL_(reg8Val&(1<<5)), _BOOL_(reg8Val&(1<<4)), _BOOL_(reg8Val&(1<<1)), _BOOL_(reg8Val&(1<<0)));
 //	HAL_UART_Transmit(&nrf24_huart, (uint8_t *)uartTxBuf, strlen(uartTxBuf), 10);
 	VCPSend((uint8_t *)uartTxBuf, strlen(uartTxBuf));
 	
