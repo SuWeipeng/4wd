@@ -7,10 +7,26 @@
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim12;
 
-stm32_motor motor_fl; // front left
-stm32_motor motor_fr; // front right
-stm32_motor motor_bl; // back left
-stm32_motor motor_br; // back right
+stm32_motor motor_fl = {.tim      = &htim2,
+                        .dir_port = GPIOE,
+                        .pin_1    = GPIO_PIN_12,
+                        .pin_2    = GPIO_PIN_14,
+                        .channel  = TIM_CHANNEL_3}; // front left
+stm32_motor motor_fr = {.tim      = &htim12,
+                        .dir_port = GPIOD,
+                        .pin_1    = GPIO_PIN_8,
+                        .pin_2    = GPIO_PIN_10,
+                        .channel  = TIM_CHANNEL_1}; // front right
+stm32_motor motor_bl = {.tim      = &htim2,
+                        .dir_port = GPIOE,
+                        .pin_1    = GPIO_PIN_13,
+                        .pin_2    = GPIO_PIN_15,
+                        .channel  = TIM_CHANNEL_4}; // back left
+stm32_motor motor_br = {.tim      = &htim12,
+                        .dir_port = GPIOD,
+                        .pin_1    = GPIO_PIN_9,
+                        .pin_2    = GPIO_PIN_11,
+                        .channel  = TIM_CHANNEL_2}; // back right
 
 uint16_t speed_fl = 0;
 uint16_t speed_fr = 0;
@@ -32,27 +48,6 @@ void Motors_Init()
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
   HAL_TIM_PWM_Start(&htim12,TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim12,TIM_CHANNEL_2);
-  
-  motor_fl = (stm32_motor){.tim      = &htim2,
-                           .dir_port = GPIOE,
-                           .pin_1    = GPIO_PIN_12,
-                           .pin_2    = GPIO_PIN_14,
-                           .channel  = TIM_CHANNEL_3};
-  motor_bl = (stm32_motor){.tim      = &htim2,
-                           .dir_port = GPIOE,
-                           .pin_1    = GPIO_PIN_13,
-                           .pin_2    = GPIO_PIN_15,
-                           .channel  = TIM_CHANNEL_4};
-  motor_fr = (stm32_motor){.tim      = &htim12,
-                           .dir_port = GPIOD,
-                           .pin_1    = GPIO_PIN_8,
-                           .pin_2    = GPIO_PIN_10,
-                           .channel  = TIM_CHANNEL_1};
-  motor_br = (stm32_motor){.tim      = &htim12,
-                           .dir_port = GPIOD,
-                           .pin_1    = GPIO_PIN_9,
-                           .pin_2    = GPIO_PIN_11,
-                           .channel  = TIM_CHANNEL_2};
 }
 
 void spin(stm32_motor *motor, uint16_t speed, uint8_t inv)
