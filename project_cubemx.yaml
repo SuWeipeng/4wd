@@ -54,10 +54,11 @@ tool_specific:
     macros:
     - USE_HAL_DRIVER
     - STM32F407xx
+    - __ARMCOMPILER_LIBCXX
     misc:
       cxx_flags:
       - --cpp
-      - --c99
+      - --cpp11
       - -Otime
       - --enum_is_int
       - -g
