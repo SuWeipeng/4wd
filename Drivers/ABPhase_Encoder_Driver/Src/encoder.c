@@ -86,6 +86,7 @@ void get_direct(uint8_t who, encoder *encoder_obj)
   }
 }
 
+// 50Hz update
 void update_delta(void)
 {
   uint8_t i;
@@ -93,7 +94,7 @@ void update_delta(void)
   for(i=0; i<4; i++) {
     delta_cnt[i] = encoder_cnt[i] - last_cnt[i];
 
-    if(abs(delta_cnt[i]) >= MAX_DELTA) {
+    if(abs(delta_cnt[i]) >= MAX_DELTA_50HZ) {
       int32_t temp;
       if(delta_cnt[i] > 0) {
         temp = COUNTER_PERIOD - encoder_cnt[i];

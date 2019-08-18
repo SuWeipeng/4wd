@@ -4,7 +4,7 @@
 #include <stm32f4xx_hal.h>
 
 #define ENCODER_LINE    30.0f
-#define MAX_DELTA       200
+#define MAX_DELTA_50HZ  200
 #define COUNTER_PERIOD  65535
 #define MAX_CIRCLES     1.0e5f
 #define VCP_DEBUG       0

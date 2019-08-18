@@ -6,7 +6,7 @@
 #define REDUCTION_RATIO_MUL    (48.0f)
 #define REDUCTION_RATIO        (1/REDUCTION_RATIO_MUL)
 #define DELTA_T                (0.02f)
-#define TARGET_20HZ_SPEED      (2.0f)
+#define TARGET_50HZ_SPEED      (2.0f)
 #define PID_VCP_DEBUG          1
 
 extern uint8_t     key_value;
@@ -41,10 +41,10 @@ float calc_speed(uint8_t who, float *circles, float *last_circles);
 // 50Hz update
 void pid_control()
 {
-  speed_fl = (uint16_t)(update_all(0, TARGET_20HZ_SPEED, get_speed(0, motor_fl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_fr = (uint16_t)(update_all(1, TARGET_20HZ_SPEED, get_speed(1, motor_fr.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_bl = (uint16_t)(update_all(2, TARGET_20HZ_SPEED, get_speed(2, motor_bl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
-  speed_br = (uint16_t)(update_all(3, TARGET_20HZ_SPEED, get_speed(3, motor_br.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_fl = (uint16_t)(update_all(0, TARGET_50HZ_SPEED, get_speed(0, motor_fl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_fr = (uint16_t)(update_all(1, TARGET_50HZ_SPEED, get_speed(1, motor_fr.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_bl = (uint16_t)(update_all(2, TARGET_50HZ_SPEED, get_speed(2, motor_bl.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
+  speed_br = (uint16_t)(update_all(3, TARGET_50HZ_SPEED, get_speed(3, motor_br.enc.circles), 0)*REDUCTION_RATIO_MUL+0.5f);
 }
 
 float update_all(uint8_t who, float target, float measurement, uint8_t limit)
@@ -178,7 +178,7 @@ float calc_speed(uint8_t who, float *circles, float *last_circles)
   
   speed = *circles - *last_circles;
   
-  if(fabsf(speed) >= (MAX_DELTA*REDUCTION_RATIO)) {
+  if(fabsf(speed) >= (MAX_DELTA_50HZ*REDUCTION_RATIO)) {
     float temp;
     if(speed > 0) {
       temp  = MAX_CIRCLES - *circles;
