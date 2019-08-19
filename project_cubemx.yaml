@@ -14,6 +14,8 @@ common:
   - Drivers/nRF24L01_Driver/Inc
   - Inc
   - Libraries
+  - Libraries/AP_Math
+  - Libraries/AP_Motors
   - Libraries/Logger
   - Libraries/mavlink
   - Libraries/mavlink/car
@@ -34,6 +36,8 @@ common:
     - Drivers/ABPhase_Encoder_Driver/Src
     - Drivers/nRF24L01_Driver/Src
     Libraries:
+    - Libraries/AP_Math
+    - Libraries/AP_Motors
     - Libraries/Logger
     Middlewares:
     - Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
@@ -57,7 +61,6 @@ tool_specific:
     - __ARMCOMPILER_LIBCXX
     misc:
       cxx_flags:
-      - --cpp
       - --cpp11
       - -Otime
       - --enum_is_int
@@ -110,6 +113,6 @@ tool_specific:
       - -Wl,--gc-sections
       cxx_flags:
       - -fno-rtti
-      - -std=gnu++98
+      - -std=c++11
       c_flags:
       - -std=c99

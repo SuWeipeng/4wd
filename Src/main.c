@@ -76,7 +76,8 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
-
+void setup(void);
+void loop(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -138,11 +139,7 @@ int main(void)
   NRF24_enableAckPayload();
   
   Log_Init();
-  Motors_Init();
-  HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
-  HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
-  HAL_TIM_Encoder_Start(&htim5, TIM_CHANNEL_ALL);
+  setup();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,12 +147,10 @@ int main(void)
   while (1)
   {
     update_mavlink();
-    update_encoder();
+    loop();
     /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-    update_mode();
-    
+    /* USER CODE BEGIN 3 */    
     HAL_Delay(20);
   }
   /* USER CODE END 3 */
