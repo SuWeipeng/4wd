@@ -171,18 +171,6 @@ float norm(const T first, const U second, const Params... parameters)
     return sqrtf(sq(first, second, parameters...));
 }
 
-template<typename A, typename B>
-static inline auto MIN(const A &one, const B &two) -> decltype(one < two ? one : two)
-{
-    return one < two ? one : two;
-}
-
-template<typename A, typename B>
-static inline auto MAX(const A &one, const B &two) -> decltype(one > two ? one : two)
-{
-    return one > two ? one : two;
-}
-
 inline uint32_t hz_to_nsec(uint32_t freq)
 {
     return AP_NSEC_PER_SEC / freq;
