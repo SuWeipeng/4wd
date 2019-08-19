@@ -111,6 +111,7 @@ tool_specific:
       ld_flags:
       - -specs=nano.specs
       - -Wl,--gc-sections
+      - -u _printf_float
       cxx_flags:
       - -fno-rtti
       - -std=c++11
