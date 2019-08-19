@@ -6,6 +6,7 @@
 #include "definitions.h"
 
 #ifdef __GNUC__
+#include <float.h>
  #define WARN_IF_UNUSED __attribute__ ((warn_unused_result))
 #else
  #define WARN_IF_UNUSED
