@@ -69,7 +69,7 @@ float expo_curve(float alpha, float x)
  */
 float throttle_curve(float thr_mid, float alpha, float thr_in)
 {
-    float alpha2 = alpha + 1.25 * (1.0f - alpha) * (0.5f - thr_mid) / 0.5f;
+    float alpha2 = alpha + 1.25f * (1.0f - alpha) * (0.5f - thr_mid) / 0.5f;
     alpha2 = constrain_float(alpha2, 0.0f, 1.0f);
     float thr_out = 0.0f;
     if (thr_in < 0.5f) {
