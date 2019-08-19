@@ -6,6 +6,7 @@
 #define MOTORS_PWM_MIN         50
 #define ENCODER_CNT_MAX        65535
 #define MOTORS_ENCODER_LINE    30.0f
+#define MOTORS_MAX_RPM         5000.0f
 
 class AC_PID;
 
