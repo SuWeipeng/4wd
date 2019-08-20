@@ -18,9 +18,9 @@ void setup(void)
 
 void loop(void)
 {
-  float vel_x = 0.0f;
-  float vel_y = 0.05f;
-  float rad_z = 0.0f;
+  float vel_x = 0.0f;  // x max 1.33f
+  float vel_y = 0.0f;  // y max 1.33f
+  float rad_z = 0.1f;  // z max 0.7f
   
   base->vel2rpm(vel_x, vel_y, rad_z);
 }

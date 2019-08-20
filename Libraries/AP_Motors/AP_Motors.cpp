@@ -99,8 +99,13 @@ int16_t AP_Motors::_get_delta_tick()
 {
   int32_t delta_tick;
   
+
+  
   _tick = __HAL_TIM_GET_COUNTER(_enc_tim);
-  if(abs(_tick - _tick_last) > ENCODER_CNT_MAX/2 ) /* overflow */
+      char TxBuf[100];
+  sprintf(TxBuf, "[delta:%d] \r\n", _tick - _tick_last);
+  VCPSend((uint8_t *)TxBuf, strlen(TxBuf));
+  if(abs(_tick - _tick_last) > ENCODER_DELTA_MAX ) /* overflow */
   {
     if(_tick > _tick_last)
     {
