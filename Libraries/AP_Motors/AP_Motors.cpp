@@ -40,7 +40,7 @@ void AP_Motors::set_rpm(float rpm)
 {
   int16_t _pwm;
 
-  _rpm = _read_rpm();
+  _rpm = _read_rpm() / MOTORS_REDUCTION_RATIO;
   _pwm = constrain_int16((int16_t)(_pid->update_all(rpm, _rpm, false)+0.5f), -_pwm_max, _pwm_max);
   
   /* The motor does not rotate when pwm lower than MOTORS_PWM_MIN*/
@@ -85,7 +85,7 @@ float AP_Motors::_read_rpm()
   cur_millisecond = HAL_GetTick();
   delta_t_sec = (cur_millisecond - _last_millisecond) / 1000.0f;
   delta_min   = (cur_millisecond - _last_millisecond) / 60000.0;
-  /* prm = tick / tick_per / min_time = rev /mins */
+
   rpm_cur = (delta_tick / MOTORS_ENCODER_LINE) / delta_min;
   
   _pid->set_dt(delta_t_sec);
