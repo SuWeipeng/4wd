@@ -48,10 +48,11 @@ void AP_Motors::set_rpm(float rpm)
   
   /* spin */
   _spin(_pwm);
-
+#if MOTORS_VCP_DEBUG
   char TxBuf[100];
   sprintf(TxBuf, "[p:%.2f | i:%.2f | d:%.2f | pwm:%d | rpm: %.2f] \r\n", _pid->get_p(), _pid->get_i(), _pid->get_d(), _pwm, _rpm);
   VCPSend((uint8_t *)TxBuf, strlen(TxBuf));
+#endif
 }
 
 void AP_Motors::_spin(int16_t pwm)

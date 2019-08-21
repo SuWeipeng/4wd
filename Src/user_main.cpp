@@ -1,10 +1,7 @@
-#include "main.h"
-#include "fatfs.h"
-#include "usb_device.h"
 #include "nrf_mavlink.h"
-#include "Logger.h"
-#include "MY_NRF24.h"
 #include "AC_Base.h"
+
+extern vel_target vel;
 
 Mecanum_4wd *base;
 
@@ -18,9 +15,9 @@ void setup(void)
 
 void loop(void)
 {
-  float vel_x = 0.0f;  // x max 1.33f
-  float vel_y = 0.0f;  // y max 1.33f
-  float rad_z = 0.1f;  // z max 0.7f
+  float vel_x = vel.vel_x;  // x max 1.33f
+  float vel_y = vel.vel_y;  // y max 1.33f
+  float rad_z = vel.rad_z;  // z max 0.7f
   
   base->vel2rpm(vel_x, vel_y, rad_z);
 }
