@@ -5,7 +5,7 @@
 
 MAVPACKED(
 typedef struct __mavlink_test_t {
- float data32; /*<  2 byte*/
+ float data32; /*<  4 byte*/
  uint16_t data16; /*<  2 byte*/
  uint8_t data8; /*<  1 byte*/
 }) mavlink_test_t;
@@ -49,7 +49,7 @@ typedef struct __mavlink_test_t {
  *
  * @param data8  1 byte
  * @param data16  2 byte
- * @param data32  2 byte
+ * @param data32  4 byte
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_test_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -83,7 +83,7 @@ static inline uint16_t mavlink_msg_test_pack(uint8_t system_id, uint8_t componen
  * @param msg The MAVLink message to compress the data into
  * @param data8  1 byte
  * @param data16  2 byte
- * @param data32  2 byte
+ * @param data32  4 byte
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_test_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -143,7 +143,7 @@ static inline uint16_t mavlink_msg_test_encode_chan(uint8_t system_id, uint8_t c
  *
  * @param data8  1 byte
  * @param data16  2 byte
- * @param data32  2 byte
+ * @param data32  4 byte
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -236,7 +236,7 @@ static inline uint16_t mavlink_msg_test_get_data16(const mavlink_message_t* msg)
 /**
  * @brief Get field data32 from test message
  *
- * @return  2 byte
+ * @return  4 byte
  */
 static inline float mavlink_msg_test_get_data32(const mavlink_message_t* msg)
 {
