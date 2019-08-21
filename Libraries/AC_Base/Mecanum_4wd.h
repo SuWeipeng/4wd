@@ -5,6 +5,7 @@
 #define HALF_BASE_WIDTH_M   0.070f
 #define WHEEL_DIAMETER_M    0.096f   
 #define WHEEL_RADIUS_M      (WHEEL_DIAMETER_M / 2.0f)
+#define MECANUM_VCP_DEBUG   0
 
 class AP_Motors;
 class AC_PID;

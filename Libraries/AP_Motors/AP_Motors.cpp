@@ -17,6 +17,7 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
 , _tick_last(0)
 , _last_millisecond(0)
 , _rpm(0)
+, _rpm_last(0)
 , _pwm_tim(pwm_tim)
 , _channel(channel)
 , _pwm_max(pwm_max)
@@ -39,6 +40,11 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
 void AP_Motors::set_rpm(float rpm)
 {
   int16_t _pwm;
+  
+  if((_rpm_last>0 && rpm<0) || (_rpm_last<0 && rpm>0) || is_zero(rpm)){
+    _pid->reset_I();
+    _rpm_last = rpm;
+  }
 
   _rpm = _read_rpm() / MOTORS_REDUCTION_RATIO;
   _pwm = constrain_int16((int16_t)(_pid->update_all(rpm, _rpm, false)+0.5f), -_pwm_max, _pwm_max);
@@ -48,9 +54,10 @@ void AP_Motors::set_rpm(float rpm)
   
   /* spin */
   _spin(_pwm);
-#if MOTORS_VCP_DEBUG
+  
+#if MOTORS_VCP_DEBUG == 1
   char TxBuf[100];
-  sprintf(TxBuf, "[p:%.2f | i:%.2f | d:%.2f | pwm:%d | rpm: %.2f] \r\n", _pid->get_p(), _pid->get_i(), _pid->get_d(), _pwm, _rpm);
+  sprintf(TxBuf, "[p:%.2f | i:%.2f | d:%.2f | pwm:%d | trpm:%.2f | rpm: %.2f] \r\n", _pid->get_p(), _pid->get_i(), _pid->get_d(), _pwm, rpm, _rpm);
   VCPSend((uint8_t *)TxBuf, strlen(TxBuf));
 #endif
 }

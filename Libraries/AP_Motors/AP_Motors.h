@@ -37,6 +37,7 @@ private:
   int32_t            _tick_last;
   uint32_t           _last_millisecond;
   float              _rpm;
+  float              _rpm_last;
   
   /* L298N */
   TIM_HandleTypeDef* _pwm_tim;

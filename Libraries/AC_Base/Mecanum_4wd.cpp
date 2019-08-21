@@ -22,37 +22,41 @@ static float r4[3] = { 1, -1,  (HALF_BASE_LENGTH_M+HALF_BASE_WIDTH_M)};
 static Vector3f _r1(r1),_r2(r2),_r3(r3),_r4(r4);
 
 Mecanum_4wd::Mecanum_4wd()
+: _motor1_fr_rpm(0)
+, _motor2_fl_rpm(0)
+, _motor3_bl_rpm(0)
+, _motor4_br_rpm(0)
 {
-  _pid_1 = new AC_PID(0.045f, 
-                      0.07f, 
-                      0.0014f, 
+  _pid_1 = new AC_PID(1.2f, 
+                      1.2f, 
+                      0.0f, 
                       0.0f,
                       95.0f,
                       1.0f,
                       1.0f,
                       0.85f,
                       0.02f);
-  _pid_2 = new AC_PID(0.045f, 
-                      0.07f, 
-                      0.0014f, 
+  _pid_2 = new AC_PID(1.2f, 
+                      1.2f, 
+                      0.0f, 
                       0.0f,
                       95.0f,
                       1.0f,
                       1.0f,
                       0.85f,
                       0.02f);
-  _pid_3 = new AC_PID(0.045f, 
-                      0.07f, 
-                      0.0014f, 
+  _pid_3 = new AC_PID(1.2f, 
+                      1.2f, 
+                      0.0f, 
                       0.0f,
                       95.0f,
                       1.0f,
                       1.0f,
                       0.85f,
                       0.02f);
-  _pid_4 = new AC_PID(0.045f, 
-                      0.07f, 
-                      0.0014f, 
+  _pid_4 = new AC_PID(1.2f, 
+                      1.2f, 
+                      0.0f, 
                       0.0f,
                       95.0f,
                       1.0f,

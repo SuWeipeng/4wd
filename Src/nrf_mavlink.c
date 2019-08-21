@@ -3,6 +3,7 @@
 #include "usb_device.h"
 #include "mode.h"
 
+#define _ABS_(x) (((x)>0) ? x : -x)
 #define NRF_VCP_DEBUG 0
 
 extern control_mode current_mode;
@@ -11,16 +12,23 @@ uint8_t    key_value = 7;
 ap_t       mav_data;
 vel_target vel;
 
+static uint32_t last_timestamp;
+
 void update_mavlink(void)
 {
   uint8_t myTxData[32];
   uint8_t AckPayload[32];
   mavlink_message_t msg;
+  uint32_t timestamp = HAL_GetTick();
 
   mav_data.mode = (uint8_t)current_mode;
   mavlink_msg_simple_pack(0,0,&msg,mav_data.value);
   int len = mavlink_msg_to_send_buffer(myTxData, &msg);
-
+  
+  if(_ABS_(timestamp - last_timestamp) > 1000){
+    memset(&vel, 0, sizeof(vel_target));
+  }
+          
   if(NRF24_write(myTxData, len)) {
     NRF24_read(AckPayload, 32);
     uint8_t i;
@@ -28,6 +36,9 @@ void update_mavlink(void)
     mavlink_status_t mav_status;
     for(i=0; i<32; i++) {
       if(mavlink_parse_char(0, AckPayload[i], &msg_receive, &mav_status)) {
+        
+        last_timestamp = timestamp;
+          
         switch (msg_receive.msgid) {
 
         case MAVLINK_MSG_ID_SIMPLE: {

@@ -15,8 +15,8 @@ void setup(void)
 
 void loop(void)
 {
-  float vel_x = vel.vel_x;  // x max 1.33f
-  float vel_y = vel.vel_y;  // y max 1.33f
+  float vel_x = vel.vel_x;  // x max 0.104f
+  float vel_y = vel.vel_y;  // y max 0.104f
   float rad_z = vel.rad_z;  // z max 0.7f
   
   base->vel2rpm(vel_x, vel_y, rad_z);
