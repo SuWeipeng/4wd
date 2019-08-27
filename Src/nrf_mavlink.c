@@ -27,6 +27,9 @@ void update_mavlink(void)
   
   if(_ABS_(timestamp - last_timestamp) > 1000){
     memset(&vel, 0, sizeof(vel_target));
+    mav_data.com = 1;
+  } else {
+    mav_data.com = 0;
   }
           
   if(NRF24_write(myTxData, len)) {

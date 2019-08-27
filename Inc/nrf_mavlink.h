@@ -9,6 +9,7 @@ typedef union{
     uint8_t key_value: 3;
     uint8_t w_number : 2;
     uint8_t mode     : 2;
+    uint8_t com      : 1;
   };
   uint8_t value;
 }ap_t;
