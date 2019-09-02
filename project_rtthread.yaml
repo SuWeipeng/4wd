@@ -23,9 +23,6 @@ common:
   - Libraries/rt-thread/components/drivers/include/drivers/pin.h
   - Libraries/rt-thread/components/drivers/include/drivers/serial.h
   - Libraries/rt-thread/components/finsh
-  - Libraries/rt-thread/components/libc
-  - Libraries/rt-thread/components/libc/compilers
-  - Libraries/rt-thread/components/libc/compilers/armlibc
   - Libraries/rt-thread/HAL_Drivers
   - Libraries/rt-thread/HAL_Drivers/config
   - Libraries/rt-thread/HAL_Drivers/config/f4
@@ -83,6 +80,10 @@ common:
   - stm32f407ze
 tool_specific:
   uvision5:
+    includes:
+    - Libraries/rt-thread/components/libc
+    - Libraries/rt-thread/components/libc/compilers
+    - Libraries/rt-thread/components/libc/compilers/armlibc
     macros:
     - USE_HAL_DRIVER
     - STM32F407xx
@@ -103,6 +104,10 @@ tool_specific:
     linker_file:
     - IDE/MDK5/stm32f407ze.sct
   iar_arm:
+    includes:
+    - Libraries/rt-thread/components/libc
+    - Libraries/rt-thread/components/libc/compilers
+    - Libraries/rt-thread/components/libc/compilers/armlibc
     macros:
     - USE_HAL_DRIVER
     - STM32F407xx    
@@ -128,12 +133,22 @@ tool_specific:
     linker_file:
     - IDE/IAR/stm32f407xx_flash.icf
   make_gcc_arm:
+    includes:
+    - Libraries/rt-thread/components/libc
+    - Libraries/rt-thread/components/libc/compilers
+    - Libraries/rt-thread/components/libc/compilers/newlib
     macros:
     - USE_HAL_DRIVER
     - STM32F407xx    
     sources:
       StartUp:
       - IDE/GCC/startup_stm32f407xx-rtt.S
+      libc:
+      - Libraries/rt-thread/components/libc/compilers/newlib/libc.c
+      - Libraries/rt-thread/components/libc/compilers/newlib/libc_syms.c
+      - Libraries/rt-thread/components/libc/compilers/newlib/stdio.c
+      - Libraries/rt-thread/components/libc/compilers/newlib/syscalls.c
+      - Libraries/rt-thread/components/libc/compilers/newlib/time.c
       RTThread:
       - Libraries/rt-thread/libcpu/arm/cortex-m4/context_gcc.S
     linker_file:
