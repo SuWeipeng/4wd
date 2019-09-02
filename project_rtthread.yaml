@@ -23,6 +23,9 @@ common:
   - Libraries/rt-thread/components/drivers/include/drivers/pin.h
   - Libraries/rt-thread/components/drivers/include/drivers/serial.h
   - Libraries/rt-thread/components/finsh
+  - Libraries/rt-thread/components/libc
+  - Libraries/rt-thread/components/libc/compilers
+  - Libraries/rt-thread/components/libc/compilers/armlibc
   - Libraries/rt-thread/HAL_Drivers
   - Libraries/rt-thread/HAL_Drivers/config
   - Libraries/rt-thread/HAL_Drivers/config/f4
@@ -90,6 +93,11 @@ tool_specific:
     sources:
       StartUp:
       - IDE/MDK5
+      libc:
+      - Libraries/rt-thread/components/libc/compilers/armlibc/libc.c
+      - Libraries/rt-thread/components/libc/compilers/armlibc/mem_std.c
+      - Libraries/rt-thread/components/libc/compilers/armlibc/stubs.c
+      - Libraries/rt-thread/components/libc/compilers/common/time.c
       RTThread:
       - Libraries/rt-thread/libcpu/arm/cortex-m4/context_rvds.S
     linker_file:
@@ -101,6 +109,20 @@ tool_specific:
     sources:
       StartUp:
       - IDE/IAR
+      dlib:
+      - Libraries/rt-thread/components/libc/compilers/dlib/environ.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/rmtx.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/stdio.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_close.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_lseek.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_mem.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_open.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_read.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_remove.c
+      - Libraries/rt-thread/components/libc/compilers/dlib/syscall_write.c
+      libc:
+      - Libraries/rt-thread/components/libc/compilers/armlibc/libc.c
+      - Libraries/rt-thread/components/libc/compilers/common/time.c
       RTThread:
       - Libraries/rt-thread/libcpu/arm/cortex-m4/context_iar.S
     linker_file:
