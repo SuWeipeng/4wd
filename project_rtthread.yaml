@@ -49,9 +49,9 @@ common:
     - Drivers/nRF24L01_Driver/Src
     RTThread:
     - Libraries/rt-thread/board-F407xE
-    - Libraries/rt-thread/components/cplusplus/Mutex.cpp
-    - Libraries/rt-thread/components/cplusplus/Semaphore.cpp
-    - Libraries/rt-thread/components/cplusplus/Thread.cpp
+    - Libraries/rt-thread/components/cplusplus/MutexCPP.cpp
+    - Libraries/rt-thread/components/cplusplus/SemaphoreCPP.cpp
+    - Libraries/rt-thread/components/cplusplus/ThreadCPP.cpp
     - Libraries/rt-thread/components/cplusplus/crt.cpp
     - Libraries/rt-thread/components/cplusplus/crt_init.c
     - Libraries/rt-thread/components/drivers/misc/pin.c

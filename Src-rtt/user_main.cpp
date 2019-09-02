@@ -6,10 +6,8 @@
 
 extern vel_target vel;
 
-
-#if (defined(__GNUC__) || defined(__CC_ARM)) && defined(__cplusplus)
 extern "C" {
-#endif
+
 void setup(void)
 {
 
@@ -19,6 +17,8 @@ void loop(void)
 {
 
 }
+
+} // extern "C"
 
 using namespace rtthread;
 
@@ -77,7 +77,3 @@ void throw_exceptions(void *args)
 }
 
 MSH_CMD_EXPORT(throw_exceptions, throw cpp exceptions);
-
-#if (defined(__GNUC__) || defined(__CC_ARM)) && defined(__cplusplus)
-}
-#endif
