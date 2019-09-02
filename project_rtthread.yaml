@@ -115,7 +115,7 @@ tool_specific:
       RTThread:
       - Libraries/rt-thread/libcpu/arm/cortex-m4/context_gcc.S
     linker_file:
-    - IDE/GCC/STM32F407ZETx_FLASH.ld
+    - IDE/GCC/link.lds
     misc:
       standard_libraries:
       - m
@@ -131,7 +131,6 @@ tool_specific:
       - -fno-strict-aliasing
       - -ffunction-sections
       - -fdata-sections
-      - -fno-exceptions
       - -fno-delete-null-pointer-checks
       - -fmessage-length=0
       - -fno-builtin
