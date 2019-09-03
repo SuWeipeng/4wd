@@ -4,18 +4,23 @@
 #include <stdlib.h>
 #include "nrf_mavlink.h"
 
+#include <entry.h>
+
+#define LED_PIN    GET_PIN(F, 9)
+
 extern vel_target vel;
 
 extern "C" {
 
 void setup(void)
 {
-
+	rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
 }
 
 void loop(void)
 {
-
+	rt_pin_write(LED_PIN, !rt_pin_read(LED_PIN));
+	rt_thread_delay(200);
 }
 
 } // extern "C"
