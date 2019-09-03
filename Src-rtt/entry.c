@@ -159,14 +159,16 @@ int main(void)
   Log_Init();
   setup();
   rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-  RTT_CREATE(led,led_thread_entry,RT_NULL,512,5,20);
+  RTT_CREATE(led,led_thread_entry,RT_NULL,1024,30,20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  return RT_EOK;
+
   while (1)
   {
+	rt_thread_delay(500);
+	return RT_EOK;
     update_mavlink();
     loop();
     /* USER CODE END WHILE */
