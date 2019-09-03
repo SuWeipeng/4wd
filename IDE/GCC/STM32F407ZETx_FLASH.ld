@@ -91,9 +91,28 @@ SECTIONS
     KEEP (*(.fini))
 
     . = ALIGN(4);
+    
+    PROVIDE(__ctors_start__ = .);
+    KEEP (*(SORT(.init_array.*)))
+    KEEP (*(.init_array))
+    PROVIDE(__ctors_end__ = .);
+        
+    . = ALIGN(4);
+        
     _etext = .;        /* define a global symbols at end of code */
   } >FLASH
 
+  /* .ARM.exidx is sorted, so has to go in its own output section.  */
+  __exidx_start = .;
+  .ARM.exidx :
+  {
+    *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+	
+    /* This is used by the startup in order to initialize the .data secion */
+    _sidata = .;
+  } > FLASH
+  __exidx_end = .;
+    
   /* Constant data goes into FLASH */
   .rodata :
   {
@@ -172,14 +191,14 @@ SECTIONS
   {
     /* This is used by the startup in order to initialize the .bss secion */
     _sbss = .;         /* define a global symbol at bss start */
-    __bss_start__ = _sbss;
+    __bss_start = _sbss;
     *(.bss)
     *(.bss*)
     *(COMMON)
 
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
-    __bss_end__ = _ebss;
+    __bss_end = _ebss;
   } >RAM
 
   /* User_heap_stack section, used to check that there is enough RAM left */
