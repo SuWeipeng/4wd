@@ -159,7 +159,7 @@ int main(void)
   Log_Init();
   setup();
   rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-  RTT_CREATE(led,led_thread_entry,RT_NULL,256,5,20);
+  RTT_CREATE(led,led_thread_entry,RT_NULL,512,5,20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
