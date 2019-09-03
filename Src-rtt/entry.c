@@ -89,6 +89,17 @@ void loop(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint64_t TxpipeAddrs = 0x11223344AA;
+
+#include <entry.h>
+#define LED_PIN    GET_PIN(F, 9)
+rt_thread_t led_thread;
+void led_thread_entry(void* parameter)
+{
+  while(1) {
+    rt_pin_write(LED_PIN, !rt_pin_read(LED_PIN));
+    rt_thread_delay(200);
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -147,11 +158,13 @@ int main(void)
   
   Log_Init();
   setup();
+  rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
+  RTT_CREATE(led,led_thread_entry,RT_NULL,256,5,20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	return RT_EOK;
+  return RT_EOK;
   while (1)
   {
     update_mavlink();
