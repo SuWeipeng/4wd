@@ -182,6 +182,7 @@ tool_specific:
       - -specs=nano.specs
       - -Wl,--gc-sections
       - -u _printf_float
+      - -fno-exceptions
       cxx_flags:
       - -fno-rtti
       c_flags:
