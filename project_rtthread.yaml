@@ -14,6 +14,8 @@ common:
   - Drivers/nRF24L01_Driver/Inc
   - Inc
   - Libraries
+  - Libraries/AC_PID
+  - Libraries/AP_Motors
   - Libraries/rt-thread
   - Libraries/rt-thread/board-F407xE
   - Libraries/rt-thread/components
@@ -68,6 +70,8 @@ common:
     - Libraries/rt-thread/libcpu/arm/cortex-m4/cpuport.c
     - Libraries/rt-thread/src
     Libraries:
+    - Libraries/AC_PID
+    - Libraries/AP_Motors
     - Libraries/Logger
     Middlewares:
     - Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
@@ -86,6 +90,7 @@ common:
 tool_specific:
   uvision5:
     includes:
+    - Libraries/AC_Base_mdk5
     - Libraries/AP_Math_mdk5
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
@@ -98,7 +103,8 @@ tool_specific:
       cxx_flags:
       - --exceptions
     sources:
-      Car:
+      MDK5:
+      - Libraries/AC_Base_mdk5
       - Libraries/AP_Math_mdk5
       StartUp:
       - IDE/MDK5
@@ -113,6 +119,7 @@ tool_specific:
     - IDE/MDK5/stm32f407ze.sct
   iar_arm:
     includes:
+    - Libraries/AC_Base
     - Libraries/AP_Math
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
@@ -121,7 +128,8 @@ tool_specific:
     - USE_HAL_DRIVER
     - STM32F407xx    
     sources:
-      Car:
+      IAR:
+      - Libraries/AC_Base
       - Libraries/AP_Math
       StartUp:
       - IDE/IAR
@@ -145,6 +153,7 @@ tool_specific:
     - IDE/IAR/stm32f407xx_flash.icf
   make_gcc_arm:
     includes:
+    - Libraries/AC_Base
     - Libraries/AP_Math
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
@@ -153,7 +162,8 @@ tool_specific:
     - USE_HAL_DRIVER
     - STM32F407xx    
     sources:
-      Car:
+      GCC:
+      - Libraries/AC_Base
       - Libraries/AP_Math
       StartUp:
       - IDE/GCC/startup_stm32f407xx-rtt.S

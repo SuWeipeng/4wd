@@ -34,6 +34,7 @@
 #include "motors.h"
 #include "mode.h"
 #include "encoder.h"
+#include "Logger.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -157,6 +158,10 @@ int main(void)
   NRF24_enableAckPayload();
   
   Log_Init();
+  for(uint8_t i=0;i<10;i++){
+    Write_Test((uint64_t)i,(uint16_t)i);
+  }
+  
   setup();
   rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
   RTT_CREATE(led,led_thread_entry,RT_NULL,1024,30,20);
@@ -167,13 +172,12 @@ int main(void)
 
   while (1)
   {
-	rt_thread_delay(500);
-	return RT_EOK;
     update_mavlink();
     loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    rt_thread_delay(1);
   }
   /* USER CODE END 3 */
 }
