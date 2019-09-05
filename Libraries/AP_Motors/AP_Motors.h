@@ -32,6 +32,7 @@ public:
   int32_t get_delta_tick() { return _delta_tick; }
   int32_t get_tick()       { return _tick; }
   double  get_delta_min()  { return _delta_min; }
+  int16_t get_pwm()        { return _pwm; }
 
 private:
   /* encoder */
@@ -52,6 +53,7 @@ private:
   GPIO_TypeDef*      _dir_port;
   uint16_t           _pin_1;
   uint16_t           _pin_2;
+  int16_t            _pwm;
   
   /* pid control */
   AC_PID*            _pid;

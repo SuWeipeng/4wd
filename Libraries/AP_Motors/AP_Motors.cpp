@@ -27,6 +27,7 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
 , _dir_port(dir_port)
 , _pin_1(pin_1)
 , _pin_2(pin_2)
+, _pwm(0)
 , _pid(pid)
 {
   /* clear PWM */
@@ -42,8 +43,6 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
 
 void AP_Motors::set_rpm(float rpm)
 {
-  int16_t _pwm;
-  
   if((_rpm_last>0 && rpm<0) || (_rpm_last<0 && rpm>0) || is_zero(rpm)){
     _pid->reset_I();
     _rpm_last = rpm;
