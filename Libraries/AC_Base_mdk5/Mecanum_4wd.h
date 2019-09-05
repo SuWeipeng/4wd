@@ -7,7 +7,6 @@
 
 #if defined(USE_RTTHREAD)
 #include "Semaphore.h"
-
 using namespace rtthread;
 #endif
 

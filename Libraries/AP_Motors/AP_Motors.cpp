@@ -14,10 +14,12 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
                      AC_PID*            pid)
 : _enc_tim(enc_tim)
 , _enc_dir(enc_dir)
+, _tick(0)
 , _tick_last(0)
 , _last_millisecond(0)
 , _rpm(0)
 , _rpm_last(0)
+, _delta_tick(0)
 , _pwm_tim(pwm_tim)
 , _channel(channel)
 , _pwm_max(pwm_max)
@@ -87,14 +89,13 @@ float AP_Motors::_read_rpm()
   uint32_t cur_millisecond;
   float    delta_t_sec;
   double   delta_min, rpm_cur;
-  int16_t  delta_tick;
   
-  delta_tick = _get_delta_tick();
+  _delta_tick = _get_delta_tick();
   cur_millisecond = HAL_GetTick();
   delta_t_sec = (cur_millisecond - _last_millisecond) / 1000.0f;
   delta_min   = (cur_millisecond - _last_millisecond) / 60000.0;
 
-  rpm_cur = (delta_tick / MOTORS_ENCODER_LINE) / delta_min;
+  rpm_cur = (_delta_tick / MOTORS_ENCODER_LINE) / delta_min;
   
   _pid->set_dt(delta_t_sec);
                    
@@ -103,7 +104,7 @@ float AP_Motors::_read_rpm()
   return (float)rpm_cur;
 }
 
-int16_t AP_Motors::_get_delta_tick()
+int32_t AP_Motors::_get_delta_tick()
 {
   int32_t delta_tick;
  
@@ -127,6 +128,6 @@ int16_t AP_Motors::_get_delta_tick()
 //  char TxBuf[100];
 //  sprintf(TxBuf, "[%4d|%4d]\r\n", delta_tick, _tick);
 //  VCPSend((uint8_t *)TxBuf, strlen(TxBuf));
-  
+
   return delta_tick;
 }

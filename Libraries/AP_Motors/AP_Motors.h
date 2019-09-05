@@ -28,8 +28,10 @@ public:
   ~AP_Motors(){}
   
   void    set_rpm(float rpm);
-  AC_PID* get_pid() { return _pid; }
-  
+  AC_PID* get_pid()        { return _pid; }
+  int32_t get_delta_tick() { return _delta_tick; }
+  int32_t get_tick()       { return _tick; }
+
 private:
   /* encoder */
   TIM_HandleTypeDef* _enc_tim;
@@ -39,6 +41,7 @@ private:
   uint32_t           _last_millisecond;
   float              _rpm;
   float              _rpm_last;
+  int32_t            _delta_tick;
   
   /* L298N */
   TIM_HandleTypeDef* _pwm_tim;
@@ -53,6 +56,6 @@ private:
   
   void     _spin(int16_t pwm);
   float    _read_rpm();
-  int16_t  _get_delta_tick();
+  int32_t  _get_delta_tick();
 };
 #endif /* __AP_MOTORS_H__ */
