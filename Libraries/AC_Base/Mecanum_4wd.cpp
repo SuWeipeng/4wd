@@ -1,6 +1,7 @@
 #include <vectorN.h>
 #include "Mecanum_4wd.h"
 #include "usb_device.h"
+#include "Logger.h"
 
 typedef VectorN<float,3> Vector3f;
 
@@ -16,6 +17,9 @@ Mecanum_4wd::Mecanum_4wd()
 , _motor2_fl_rpm(0)
 , _motor3_bl_rpm(0)
 , _motor4_br_rpm(0)
+#if defined(USE_RTTHREAD)
+, _log_sem("log",0)
+#endif
 {}
 
 Mecanum_4wd::~Mecanum_4wd()
@@ -54,6 +58,9 @@ void Mecanum_4wd::run()
   _motor2_fl.set_rpm(_motor2_fl_rpm);
   _motor3_bl.set_rpm(_motor3_bl_rpm);
   _motor4_br.set_rpm(_motor4_br_rpm);
+#if defined(USE_RTTHREAD)
+  _log_sem.release();
+#endif
 }
 
 void Mecanum_4wd::stop()
@@ -63,3 +70,15 @@ void Mecanum_4wd::stop()
   _motor3_bl.set_rpm(0);
   _motor4_br.set_rpm(0);
 }
+
+#if defined(USE_RTTHREAD)
+void Mecanum_4wd::log_write_base()
+{
+  _log_sem.wait(RT_WAITING_FOREVER);
+  
+  Write_PID(LOG_PIDW1_MSG, &_motor1_fr.get_pid()->get_pid_info());
+  Write_PID(LOG_PIDW2_MSG, &_motor2_fl.get_pid()->get_pid_info());
+  Write_PID(LOG_PIDW3_MSG, &_motor3_bl.get_pid()->get_pid_info());
+  Write_PID(LOG_PIDW4_MSG, &_motor4_br.get_pid()->get_pid_info());
+}
+#endif

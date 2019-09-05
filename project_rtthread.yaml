@@ -1,4 +1,6 @@
 common:
+  macros:
+  - USE_RTTHREAD
   includes:
   - Drivers
   - Drivers/CMSIS
@@ -101,7 +103,7 @@ tool_specific:
     - __ARMCOMPILER_LIBCXX
     misc:
       cxx_flags:
-      - --exceptions
+      - -Otime
     sources:
       MDK5:
       - Libraries/AC_Base_mdk5

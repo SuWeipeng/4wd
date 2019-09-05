@@ -25,16 +25,16 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <rtthread.h>
-#include <rtdevice.h>
-#include <board.h>
 #include "nrf_mavlink.h"
 #include "Logger.h"
 #include "MY_NRF24.h"
 #include "motors.h"
 #include "mode.h"
 #include "encoder.h"
-#include "Logger.h"
+#if defined(USE_RTTHREAD)
+#include "rtt_interface.h"
+#include <entry.h>
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,17 +90,6 @@ void loop(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint64_t TxpipeAddrs = 0x11223344AA;
-
-#include <entry.h>
-#define LED_PIN    GET_PIN(F, 9)
-rt_thread_t led_thread;
-void led_thread_entry(void* parameter)
-{
-  while(1) {
-    rt_pin_write(LED_PIN, !rt_pin_read(LED_PIN));
-    rt_thread_delay(200);
-  }
-}
 /* USER CODE END 0 */
 
 /**
@@ -157,14 +146,13 @@ int main(void)
   NRF24_enableDynamicPayloads();
   NRF24_enableAckPayload();
   
-  Log_Init();
-  for(uint8_t i=0;i<10;i++){
-    Write_Test((uint64_t)i,(uint16_t)i);
-  }
-  
+  Log_Init();  
   setup();
+#if defined(USE_RTTHREAD)
   rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-  RTT_CREATE(led,led_thread_entry,RT_NULL,1024,30,20);
+  RTT_CREATE(led,led_thread_entry,RT_NULL,1024,RT_THREAD_PRIORITY_MAX-2,20);
+  RTT_CREATE(log,log_thread_entry,RT_NULL,2048,RT_THREAD_PRIORITY_MAX-3,20);
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */

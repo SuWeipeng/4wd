@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "nrf_mavlink.h"
 #include "AC_Base.h"
+#include "Logger.h"
 
 using namespace rtthread;
 
@@ -15,6 +16,9 @@ extern "C" {
 void setup(void)
 {
   base = new Mecanum_4wd();
+  for(uint8_t i=0;i<10;i++){
+    Write_Test((uint64_t)i,(uint16_t)i);
+  }
 }
 
 void loop(void)

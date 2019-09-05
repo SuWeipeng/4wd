@@ -9,7 +9,7 @@
 #define MOTORS_MAX_RPM         130.0f
 #define MOTORS_REDUCTION_RATIO 48.0f
 #define ENCODER_DELTA_MAX      300.0f
-#define MOTORS_VCP_DEBUG       0
+#define MOTORS_VCP_DEBUG       1
 
 class AC_PID;
 
@@ -27,7 +27,8 @@ public:
             AC_PID*            pid);
   ~AP_Motors(){}
   
-  void set_rpm(float rpm);
+  void    set_rpm(float rpm);
+  AC_PID* get_pid() { return _pid; }
   
 private:
   /* encoder */

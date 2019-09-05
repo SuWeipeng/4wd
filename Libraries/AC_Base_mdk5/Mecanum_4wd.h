@@ -5,6 +5,12 @@
 #include <AP_Motors.h>
 #include <AC_PID.h>
 
+#if defined(USE_RTTHREAD)
+#include "Semaphore.h"
+
+using namespace rtthread;
+#endif
+
 #define HALF_BASE_LENGTH_M  0.075f
 #define HALF_BASE_WIDTH_M   0.070f
 #define WHEEL_DIAMETER_M    0.096f   
@@ -27,6 +33,10 @@ public:
   void run();
   void stop();
   void vel2rpm(float& vel_x, float& vel_y, float& rad_z);
+  
+#if defined(USE_RTTHREAD)
+  void log_write_base();
+#endif
 
 private:
   AP_Motors _motor1_fr;
@@ -39,5 +49,9 @@ private:
   AC_PID    _pid_4;
   
   float     _motor1_fr_rpm, _motor2_fl_rpm, _motor3_bl_rpm, _motor4_br_rpm;
+  
+#if defined(USE_RTTHREAD)
+  Semaphore _log_sem;
+#endif
 };
 #endif /*__MECANUM_4WD_H__*/
