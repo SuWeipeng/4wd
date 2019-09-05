@@ -194,5 +194,6 @@ tool_specific:
       - -fno-exceptions
       cxx_flags:
       - -fno-rtti
+      - -std=c++11
       c_flags:
       - -std=c99
