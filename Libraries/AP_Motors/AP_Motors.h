@@ -8,7 +8,7 @@
 #define MOTORS_ENCODER_LINE    30.0f
 #define MOTORS_MAX_RPM         130.0f
 #define MOTORS_REDUCTION_RATIO 48.0f
-#define ENCODER_DELTA_MAX      300.0f
+#define ENCODER_DELTA_MAX      5000.0f
 #define MOTORS_VCP_DEBUG       1
 
 class AC_PID;
@@ -31,6 +31,7 @@ public:
   AC_PID* get_pid()        { return _pid; }
   int32_t get_delta_tick() { return _delta_tick; }
   int32_t get_tick()       { return _tick; }
+  double  get_delta_min()  { return _delta_min; }
 
 private:
   /* encoder */
@@ -42,6 +43,7 @@ private:
   float              _rpm;
   float              _rpm_last;
   int32_t            _delta_tick;
+  double             _delta_min;
   
   /* L298N */
   TIM_HandleTypeDef* _pwm_tim;
