@@ -86,6 +86,7 @@ common:
 tool_specific:
   uvision5:
     includes:
+    - Libraries/AP_Math_mdk5
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
     - Libraries/rt-thread/components/libc/compilers/armlibc
@@ -97,6 +98,8 @@ tool_specific:
       cxx_flags:
       - --exceptions
     sources:
+      Car:
+      - Libraries/AP_Math_mdk5
       StartUp:
       - IDE/MDK5
       libc:
@@ -110,6 +113,7 @@ tool_specific:
     - IDE/MDK5/stm32f407ze.sct
   iar_arm:
     includes:
+    - Libraries/AP_Math
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
     - Libraries/rt-thread/components/libc/compilers/armlibc
@@ -117,6 +121,8 @@ tool_specific:
     - USE_HAL_DRIVER
     - STM32F407xx    
     sources:
+      Car:
+      - Libraries/AP_Math
       StartUp:
       - IDE/IAR
       dlib:
@@ -139,6 +145,7 @@ tool_specific:
     - IDE/IAR/stm32f407xx_flash.icf
   make_gcc_arm:
     includes:
+    - Libraries/AP_Math
     - Libraries/rt-thread/components/libc
     - Libraries/rt-thread/components/libc/compilers
     - Libraries/rt-thread/components/libc/compilers/newlib
@@ -146,6 +153,8 @@ tool_specific:
     - USE_HAL_DRIVER
     - STM32F407xx    
     sources:
+      Car:
+      - Libraries/AP_Math
       StartUp:
       - IDE/GCC/startup_stm32f407xx-rtt.S
       libc:
