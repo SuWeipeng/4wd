@@ -50,7 +50,7 @@ void AP_Motors::set_rpm(float rpm)
   }
 
   _rpm = _read_rpm() / MOTORS_REDUCTION_RATIO;
-  _pwm = constrain_int16((int16_t)(_pid->update_all(rpm, _rpm, false)+0.5f)+_pid->get_ff(), -_pwm_max, _pwm_max);
+  _pwm = constrain_int16((int16_t)(_pid->update_all(rpm, _rpm, false)+0.5f)+(int16_t)(_pid->get_ff()+0.5f), -_pwm_max, _pwm_max);
   
   /* The motor does not rotate when pwm lower than MOTORS_PWM_MIN*/
   if(abs(_pwm) < MOTORS_PWM_MIN) _pwm = 0;
