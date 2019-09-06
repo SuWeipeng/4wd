@@ -27,12 +27,13 @@ public:
             AC_PID*            pid);
   ~AP_Motors(){}
   
-  void    set_rpm(float rpm);
-  AC_PID* get_pid()        { return _pid; }
-  int32_t get_delta_tick() { return _delta_tick; }
-  int32_t get_tick()       { return _tick; }
-  double  get_delta_min()  { return _delta_min; }
-  int16_t get_pwm()        { return _pwm; }
+  void     set_rpm(float rpm);
+  AC_PID*  get_pid()        { return _pid; }
+  int32_t  get_delta_tick() { return _delta_tick; }
+  int32_t  get_tick()       { return _tick; }
+  double   get_delta_min()  { return _delta_min; }
+  int16_t  get_pwm()        { return _pwm; }
+  uint16_t get_delta_ms()   { return _delta_ms; }
 
 private:
   /* encoder */
@@ -45,6 +46,7 @@ private:
   float              _rpm_last;
   int32_t            _delta_tick;
   double             _delta_min;
+  uint16_t           _delta_ms;
   
   /* L298N */
   TIM_HandleTypeDef* _pwm_tim;

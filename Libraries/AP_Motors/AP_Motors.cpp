@@ -21,6 +21,7 @@ AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
 , _rpm_last(0)
 , _delta_tick(0)
 , _delta_min(0.0)
+, _delta_ms(0)
 , _pwm_tim(pwm_tim)
 , _channel(channel)
 , _pwm_max(pwm_max)
@@ -90,10 +91,11 @@ float AP_Motors::_read_rpm()
   float    delta_t_sec;
   double   rpm_cur;
   
-  _delta_tick = _get_delta_tick();
+  _delta_tick     = _get_delta_tick();
   cur_millisecond = HAL_GetTick();
-  delta_t_sec = (cur_millisecond - _last_millisecond) / 1000.0f;
-  _delta_min   = (cur_millisecond - _last_millisecond) / 60000.0;
+  _delta_ms       = cur_millisecond - _last_millisecond;
+  delta_t_sec     = _delta_ms / 1000.0f;
+  _delta_min      = _delta_ms / 60000.0;
 
   rpm_cur = (_delta_tick / MOTORS_ENCODER_LINE) / _delta_min;
   
