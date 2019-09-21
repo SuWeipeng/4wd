@@ -8,10 +8,8 @@ rt_thread_t log_thread = RT_NULL;
 extern "C"
 void log_thread_entry(void* parameter)
 {
-  while(1) {
-    rt_enter_critical();
+  while(1) { 
     base->log_write_base();
-    rt_exit_critical();
     rt_thread_delay(1);
   }
 }
