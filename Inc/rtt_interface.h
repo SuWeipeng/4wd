@@ -5,6 +5,12 @@
 
 #define LED_PIN    GET_PIN(F, 9)
 
+typedef struct vel_target {
+  float vel_x; // m/s
+  float vel_y; // m/s
+  float rad_z; // rad/s
+} vel_target;
+
 extern rt_thread_t led_thread;
 extern rt_thread_t log_thread;
 

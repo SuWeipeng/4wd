@@ -1,5 +1,4 @@
 #include "motors.h"
-#include "usb_device.h"
 
 #define L298N_PWM_MIN   30
 #define MOTOR_VCP_DEBUG 0

@@ -1,7 +1,6 @@
 #include <math.h>
 #include "pid.h"
 #include "motors.h"
-#include "usb_device.h"
 
 #define REDUCTION_RATIO_MUL    (48.0f)
 #define REDUCTION_RATIO        (1/REDUCTION_RATIO_MUL)

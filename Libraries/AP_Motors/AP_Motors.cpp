@@ -1,7 +1,6 @@
 #include <AP_Motors.h>
 #include <AP_Math.h>
 #include <AC_PID.h>
-#include "usb_device.h"
 
 AP_Motors::AP_Motors(TIM_HandleTypeDef* enc_tim,  // encoder timer
                      int8_t             enc_dir,  // encoder direction

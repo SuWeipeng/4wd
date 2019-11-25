@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "encoder.h"
-#include "usb_device.h"
 
 #ifndef NULL
 #define NULL                                            0U
