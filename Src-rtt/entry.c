@@ -23,7 +23,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "nrf_mavlink.h"
 #include "Logger.h"
 #include "motors.h"
 #include "mode.h"
@@ -149,7 +148,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    rt_thread_delay(1);
+    rt_thread_delay(100);
   }
   /* USER CODE END 3 */
 }
