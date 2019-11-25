@@ -57,9 +57,11 @@ void nrf24l01_mavlink_entry(void *param)
           case MAVLINK_MSG_ID_VELOCITY: {
             mavlink_velocity_t packet;
             mavlink_msg_velocity_decode(&msg_receive, &packet);
+            
+            vel.vel_x = packet.vel_x;
+            vel.vel_y = packet.vel_y;
+            vel.rad_z = packet.rad_z;
 
-            sprintf((char *)rbuf, "vel_x=%.3f, vel_y=%.3f, rad_z=%.3f\r\n", packet.vel_x, packet.vel_y, packet.rad_z);
-            rt_kputs((char *)rbuf);
             break;
           }
           }
